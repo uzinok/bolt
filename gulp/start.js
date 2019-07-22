@@ -19,4 +19,4 @@ gulp.task("server", function () {
 });
 
 gulp.task("build", gulp.series("clean", "copy", "copy_script", "less", "js", "html",));
-gulp.task("start", gulp.series("build", "server"));
+gulp.task("default", gulp.series("build", "server"));
