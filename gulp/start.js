@@ -1,9 +1,9 @@
-var gulp = require("gulp");
-var server = require("browser-sync").create();
+var gulp = require("gulp"),
+    server = require("browser-sync").create();
 
 gulp.task("server", function () {
   server.init({
-    server: "build/",
+    server: {baseDir: "./build"},
     injectChanges: true,
     notify: true,
     open: true,

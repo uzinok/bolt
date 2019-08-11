@@ -1,8 +1,8 @@
-var gulp = require("gulp");
-var imagemin = require("gulp-imagemin");
-var svgstore = require("gulp-svgstore");
-var webp = require("gulp-webp");
-var rename = require("gulp-rename");
+var gulp = require("gulp"),
+    imagemin = require("gulp-imagemin"),
+    svgstore = require("gulp-svgstore"),
+    webp = require("gulp-webp"),
+    rename = require("gulp-rename");
 
 gulp.task("sprite", function () {
   return gulp.src(["src/img/for_sprite/*.svg"])

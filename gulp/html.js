@@ -1,7 +1,7 @@
-var gulp = require("gulp");
-var posthtml = require("gulp-posthtml");
-var include = require("posthtml-include");
-var htmlmin = require("gulp-htmlmin");
+var gulp = require("gulp"),
+    posthtml = require("gulp-posthtml"),
+    include = require("posthtml-include"),
+    htmlmin = require("gulp-htmlmin");
 
 gulp.task("html", function () {
   return gulp.src("src/*.html")
