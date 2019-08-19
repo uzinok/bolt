@@ -1,5 +1,5 @@
 var gulp = require("gulp"),
-    server = require("browser-sync").create();
+    server = require("browser-sync");
 
 gulp.task("server", function () {
   server.init({
@@ -11,7 +11,7 @@ gulp.task("server", function () {
     ui: false
   });
 
-  gulp.watch("src/less/**/*.less", gulp.series("less")).on("change", server.reload);
+  gulp.watch("src/less/**/*.less", gulp.series("less")).on("change", server.stream);
   gulp.watch("src/js/*.js", gulp.series("js")).on("change", server.reload);
   gulp.watch("src/*.html", gulp.series("html")).on("change", server.reload);
   gulp.watch("src/template/*.html", gulp.series("html")).on("change", server.reload);
