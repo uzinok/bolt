@@ -27,7 +27,7 @@ gulp.task("opti_img", function () {
       }),
       imagemin.svgo({
         plugins: [{
-            removeViewBox: true
+            removeViewBox: false
           },
           {
             cleanupIDs: false
