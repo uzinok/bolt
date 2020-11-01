@@ -13,11 +13,11 @@ gulp.task("server", function () {
 
   gulp.watch("src/less/**/*.less", gulp.series("less")).on("change", server.stream);
   gulp.watch("src/css/**/*.css", gulp.series("copy_css")).on("change", server.reload);
-  gulp.watch("src/js/*.js", gulp.series("js")).on("change", server.reload);
   gulp.watch("src/scripts/*.js", gulp.series("copy_script")).on("change", server.reload);
+  gulp.watch("src/js/*.js", gulp.series("js")).on("change", server.reload);
   gulp.watch("src/*.html", gulp.series("html")).on("change", server.reload);
   gulp.watch("src/template/*.html", gulp.series("html")).on("change", server.reload);
-  gulp.watch("src/img/*.+(svg|png|jpg|webp)", gulp.series("copy")).on("change", server.reload);
+  gulp.watch("src/img/*.+(png|jpg|svg|webp|ico|gif)", gulp.series("copy")).on("change", server.reload);
 });
 
 gulp.task("build", gulp.series("clean", "copy", "copy_script", "copy_css", "less", "js", "html",));
