@@ -9,9 +9,8 @@ gulp.task("html", function () {
       include()
     ]))
     .pipe(htmlmin({
+      removeComments: false,
       collapseWhitespace: true
     }))
     .pipe(gulp.dest("build"));
 });
-
-// В зависимости от операционной системы уведомления от notify могут не отображаться на рабочем столе
