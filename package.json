@@ -1,6 +1,6 @@
 {
   "name": "test",
-  "version": "2.2.5",
+  "version": "2.3.6",
   "description": "test",
   "scripts": {
     "start": "gulp"
@@ -8,10 +8,13 @@
   "author": "author",
   "license": "ISC",
   "devDependencies": {
+    "@babel/core": "^7.12.3",
+    "@babel/preset-env": "^7.12.1",
     "browser-sync": "^2.26.5",
     "del": "^4.1.1",
     "gulp": "^4.0.2",
     "gulp-autoprefixer": "^6.1.0",
+    "gulp-babel": "^8.0.0",
     "gulp-concat": "^2.6.1",
     "gulp-csso": "^3.0.1",
     "gulp-htmlmin": "^5.0.1",
