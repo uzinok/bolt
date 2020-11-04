@@ -1,15 +1,25 @@
-<include src="src/template/head.html"></include>
-<div style="display: none;">
-  <include src="build/img/sprite.svg"></include>
-</div>
-<include src="src/template/header.html"></include>
-    <main>
+<!DOCTYPE html>
+<html lang="ru">
 
-        <h2>Hello</h2>
-        <svg width="300" class="footer-developer-link__img" role="img">
-          <use xlink:href="#cat-logo"></use>
-        </svg>
-        <img width="300" src="img/img.jpg" alt="#">
+<head>
+  <include src="src/template/head.html"></include>
+</head>
 
-    </main>
-<include src="src/template/footer.html"></include>
+<body>
+  <div style="display: none;">
+    <include src="resource/svg/sprite.svg"></include>
+  </div>
+  <include src="src/template/header.html"></include>
+  <main>
+
+    <h2>Hello</h2>
+    <svg width="300" class="footer-developer-link__img" role="img">
+      <use xlink:href="#cat-logo"></use>
+    </svg>
+    <img width="300" src="img/img.jpg" alt="#">
+
+    <include src="src/template/footer.html"></include>
+  </main>
+</body>
+
+</html>

@@ -1,1 +1,3 @@
-window.onload = function () {};
+window.onload = () => {
+    console.log(`"hello" - 'world'`)
+};
