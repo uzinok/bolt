@@ -1,8 +1,8 @@
 {
   "name": "bolt",
   "version": "3.0.1",
-  "description": "gulp->html+less+babel",
-  "main": "index.js",
+  "description": "html less babel",
+  "main": "main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -12,7 +12,7 @@
     "@babel/core": "^7.12.3",
     "@babel/preset-env": "^7.12.1",
     "babel": "^6.23.0",
-    "babel-loader": "^8.1.0",
+    "babel-loader": "^8.2.1",
     "browser-sync": "^2.26.13",
     "del": "^6.0.0",
     "gulp": "^4.0.2",
@@ -34,9 +34,10 @@
     "gulp-svgstore": "^7.0.1",
     "gulp-ttf2woff": "^1.1.1",
     "gulp-ttf2woff2": "^3.0.0",
+    "gulp-uglify-es": "^2.0.0",
     "gulp-webp": "^4.0.1",
     "posthtml-include": "^1.5.0",
-    "webpack": "^5.3.2",
+    "webpack": "^5.4.0",
     "webpack-stream": "^6.1.0"
   }
 }

@@ -18,7 +18,6 @@ const include = require('posthtml-include');
 const htmlmin = require('gulp-htmlmin');
 // js
 const babel = require('gulp-babel');
-const webpack = require('webpack');
 const webpackStream = require('webpack-stream');
 const minify = require('gulp-minify');
 const concat = require('gulp-concat');
