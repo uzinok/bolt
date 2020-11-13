@@ -1,3 +1,3 @@
-import {asd} from './func';
+// import {asd} from './func';
 
-asd();
+// asd();

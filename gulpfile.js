@@ -118,42 +118,8 @@ exports.htmlTo = htmlTo;
 /**
  * scripts
  */
-const scripts = () => {
-  return src('./src/js/main.js')
-    .pipe(plumber({
-      errorHandler: notify.onError(function (err) {
-        return {
-          title: 'js',
-          message: err.message
-        }
-      })
-    }))
-    .pipe(webpackStream({
-      output: {
-        filename: 'main.js',
-      },
-      module: {
-        rules: [{
-          test: /\.m?js$/,
-          exclude: /(node_modules|bower_components)/,
-          use: {
-            loader: 'babel-loader',
-            options: {
-              presets: ['@babel/preset-env']
-            }
-          }
-        }]
-      }
-    }))
-    .pipe(sourcemaps.init())
-    .pipe(sourcemaps.write())
-    .pipe(dest('build/js'))
-    .pipe(browserSync.stream());
-}
-exports.scripts = scripts;
-
 // const scripts = () => {
-//   return src('src/js/*.js')
+//   return src('./src/js/main.js')
 //     .pipe(plumber({
 //       errorHandler: notify.onError(function (err) {
 //         return {
@@ -162,25 +128,59 @@ exports.scripts = scripts;
 //         }
 //       })
 //     }))
-//     .pipe(sourcemaps.init())
-//     .pipe(concat('main.js', {
-//       newLine: ';'
-//     }))
-//     .pipe(babel({
-//       presets: ['@babel/preset-env']
-//     }))
-//     .pipe(minify({
-//       ext: {
-//         src: '.js',
-//         min: '.min.js'
+//     .pipe(webpackStream({
+//       output: {
+//         filename: 'main.js',
 //       },
-//       exclude: ['tasks']
+//       module: {
+//         rules: [{
+//           test: /\.m?js$/,
+//           exclude: /(node_modules|bower_components)/,
+//           use: {
+//             loader: 'babel-loader',
+//             options: {
+//               presets: ['@babel/preset-env']
+//             }
+//           }
+//         }]
+//       }
 //     }))
+//     .pipe(sourcemaps.init())
 //     .pipe(sourcemaps.write())
 //     .pipe(dest('build/js'))
 //     .pipe(browserSync.stream());
 // }
 // exports.scripts = scripts;
+
+const scripts = () => {
+  return src('src/js/*.js')
+    .pipe(plumber({
+      errorHandler: notify.onError(function (err) {
+        return {
+          title: 'js',
+          message: err.message
+        }
+      })
+    }))
+    .pipe(sourcemaps.init())
+    .pipe(concat('main.js', {
+      newLine: ';'
+    }))
+    .pipe(babel({
+      presets: ['@babel/preset-env']
+    }))
+    .pipe(minify({
+      ext: {
+        src: '.js',
+        min: '.min.js'
+      },
+      exclude: ['tasks']
+    }))
+    .pipe(sourcemaps.write())
+    .pipe(dest('build/js'))
+    .pipe(browserSync.stream());
+}
+exports.scripts = scripts;
 
 /**
  * browserSync
@@ -324,6 +324,29 @@ const scriptsBuild = () => {
 }
 exports.scriptsBuild = scriptsBuild;
 
+// const scriptsBuild = () => {
+//   return src('./src/js/main.js')
+//     .pipe(webpackStream({
+//       output: {
+//         filename: 'main.js',
+//       },
+//       module: {
+//         rules: [{
+//           test: /\.m?js$/,
+//           exclude: /(node_modules|bower_components)/,
+//           use: {
+//             loader: 'babel-loader',
+//             options: {
+//               presets: ['@babel/preset-env']
+//             }
+//           }
+//         }]
+//       }
+//     }))
+//     .pipe(dest('build/js'));
+// }
+// exports.scriptsBuild = scriptsBuild;
+
 /**
  * html to build
  */
@@ -332,6 +355,10 @@ const htmlToBuild = () => {
     .pipe(posthtml([
       include()
     ]))
+    .pipe(htmlmin({
+      removeComments: false,
+      collapseWhitespace: true
+    }))
     .pipe(dest('build'))
 }
 exports.htmlToBuild = htmlToBuild;
