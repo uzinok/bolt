@@ -1,0 +1,25 @@
+## Заранее извиняюсь за отсутствие нормальной подсветки синтаксиса в этом примере и далее.
+## Хоть "ini" и содержится в списке форматов поддерживаемых Хабром, код красивым не становится.
+## Если кто знает, как это починить - пожалуйста напишите в личку.
+#
+# Корневой файл EditorConfig
+root = true
+
+# Для всех файлов используем unix-совместимые переносы строк
+[*]
+end_of_line = lf
+insert_final_newline = true
+indent_style = space
+indent_size = 4
+trim_trailing_whitespace = true
+
+
+# Только для файлов package.json or .travis.yml
+[{package.json,.travis.yml}]
+indent_style = space
+indent_size = 2
+
+[*.min.*]
+indent_style = ignore
+trim_trailing_whitespace = false
+insert_final_newline = ignore
