@@ -1,6 +1,6 @@
 {
   "name": "bolt",
-  "version": "3.0.3",
+  "version": "3.0.4",
   "description": "html less babel",
   "main": "main.js",
   "scripts": {
