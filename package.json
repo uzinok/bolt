@@ -1,43 +1,39 @@
 {
   "name": "bolt",
-  "version": "3.0.4",
+  "version": "4.0.0",
   "description": "html less babel",
-  "main": "main.js",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "uzinok@yandex.ru",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/uzinok/bolt.git"
+  },
+  "author": "Зиновьев Александр",
   "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/uzinok/bolt/issues"
+  },
+  "homepage": "https://github.com/uzinok/bolt#readme",
   "devDependencies": {
-    "@babel/core": "^7.12.3",
-    "@babel/preset-env": "^7.12.1",
-    "babel": "^6.23.0",
-    "babel-loader": "^8.2.1",
-    "browser-sync": "^2.26.13",
+    "@babel/core": "^7.16.5",
+    "@babel/preset-env": "^7.16.5",
+    "browser-sync": "^2.27.7",
     "del": "^6.0.0",
     "gulp": "^4.0.2",
-    "gulp-autoprefixer": "^7.0.1",
+    "gulp-autoprefixer": "^8.0.0",
     "gulp-babel": "^8.0.0",
-    "gulp-cli": "^2.3.0",
-    "gulp-concat": "^2.6.1",
-    "gulp-csso": "^4.0.1",
+    "gulp-clean-css": "^4.3.0",
     "gulp-group-css-media-queries": "^1.2.2",
     "gulp-htmlmin": "^5.0.1",
-    "gulp-imagemin": "^7.1.0",
-    "gulp-less": "^4.0.1",
+    "gulp-less": "^5.0.0",
+    "gulp-libsquoosh": "^1.0.12",
     "gulp-minify": "^3.1.0",
-    "gulp-notify": "^3.2.0",
-    "gulp-plumber": "^1.2.1",
-    "gulp-posthtml": "^3.0.5",
     "gulp-rename": "^2.0.0",
-    "gulp-sourcemaps": "^2.6.5",
-    "gulp-svgstore": "^7.0.1",
+    "gulp-sourcemaps": "^3.0.0",
+    "gulp-svg-sprite": "^1.5.0",
     "gulp-ttf2woff": "^1.1.1",
-    "gulp-ttf2woff2": "^3.0.0",
-    "gulp-uglify-es": "^2.0.0",
-    "gulp-webp": "^4.0.1",
-    "posthtml-include": "^1.5.0",
-    "webpack": "^5.4.0",
-    "webpack-stream": "^6.1.0"
+    "gulp-ttf2woff2": "^4.0.1"
   }
 }
