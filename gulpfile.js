@@ -27,6 +27,7 @@ const minify = require('gulp-minify');
 
 // html
 const htmlmin = require('gulp-htmlmin');
+const nunjucks = require('gulp-nunjucks');
 
 const paths = {
     clean: 'dest',
@@ -105,9 +106,9 @@ function scripts() {
 }
 
 // html
-// http://mozilla.github.io/nunjucks/
 function html() {
     return src(paths.html.src)
+        .pipe(nunjucks.compile())
         .pipe(htmlmin({
             removeComments: false,
             collapseWhitespace: true
