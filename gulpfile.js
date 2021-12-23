@@ -14,6 +14,9 @@ const rename = require('gulp-rename');
 const sourcemaps = require('gulp-sourcemaps');
 // browserSync
 const browserSync = require('browser-sync').create();
+// error
+const plumber = require('gulp-plumber');
+const notify = require('gulp-notify');
 
 // styles
 const less = require('gulp-less');
@@ -70,7 +73,19 @@ function copy() {
 // styles
 function styles() {
     return src(paths.styles.src)
+        .pipe(plumber({
+            errorHandler: notify.onError(function(err) {
+                return {
+                    title: 'Task styles',
+                    message: "Error: <%= error.message %>",
+                    sound: true
+                }
+            })
+        }))
         .pipe(sourcemaps.init())
+        .pipe(plumber({
+            errorHandler: onError
+        }))
         .pipe(less())
         .pipe(gcmq())
         .pipe(cleanCSS())
@@ -88,9 +103,16 @@ function styles() {
 
 // scripts
 function scripts() {
-    return src(paths.scripts.src, {
-            sourcemaps: true
-        })
+    return src(paths.scripts.src)
+        .pipe(plumber({
+            errorHandler: notify.onError(function(err) {
+                return {
+                    title: 'Task scripts',
+                    message: "Error: <%= error.message %>",
+                    sound: true
+                }
+            })
+        }))
         .pipe(babel({
             presets: ['@babel/preset-env']
         }))
@@ -170,7 +192,7 @@ function optiImg() {
             base: 'src'
         })
         .pipe(squoosh())
-        .pipe(dest("src/"))
+        .pipe(dest("src/"));
 }
 
 function createWebp() {
