@@ -6,7 +6,7 @@
 *.pdf
 *.psd
 *.sublime*
-build/
+dest/
 node_modules/
 video/
 npm-debug.*
