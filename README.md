@@ -21,9 +21,9 @@
 3.	`src/resource/` - папка для файлов требующих дополнительных действий, напимер, конвертацию в другие форматы
 4.	`.jsbeautifyrc` - файл настройки для плагина [Beautify](https://marketplace.visualstudio.com/items?itemName=HookyQR.beautify) VSC
 5.	`postcss-sorting.json` - файл настройки для плагина [PostCSS Sorting](https://marketplace.visualstudio.com/items?itemName=mrmlnc.vscode-postcss-sorting) VSC. Файл взят из репозитория [htmlacademy](https://github.com/htmlacademy/codeguide/blob/master/.postcss-sorting.json), за что им отдельная благодарность.
+6.	`.npmrc` отменяет создание package-lock.json файла
 
 ## Перед установкой сборщика необходимо:
------------------------------------
 
 * [устнаовить node.js](https://nodejs.org/) используется пакет npm
 * [глобально установить gulp](https://gulpjs.com/) для работы команд gulp
