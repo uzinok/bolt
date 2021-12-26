@@ -192,17 +192,23 @@ exports.default = series(clean, copy, parallel(scripts, styles, html), server);
 // img
 const squoosh = require('gulp-libsquoosh');
 const svgSprite = require('gulp-svg-sprite');
+const svgmin = require('gulp-svgmin');
 // fonts
 const ttf2woff2 = require('gulp-ttf2woff2');
 const ttf2woff = require('gulp-ttf2woff');
 
 // img
 function optiImg() {
+	src("./src/img/**/*.svg", {
+			base: 'src'
+		})
+		.pipe(svgmin())
+		.pipe(dest("src/"));
 	return src("./src/img/**/*.{png,jpg}", {
 			base: 'src'
 		})
 		.pipe(squoosh())
-		.pipe(dest("src/"))
+		.pipe(dest("src/"));
 }
 
 function createWebp() {
