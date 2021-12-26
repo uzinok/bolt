@@ -33,7 +33,8 @@ const htmlmin = require('gulp-htmlmin');
 const nunjucks = require('gulp-nunjucks');
 
 const paths = {
-	clean: 'dest',
+	dest: 'dest',
+	src: 'src',
 	styles: {
 		src: 'src/styles/*.less',
 		watch: 'src/styles/**/*.less',
@@ -48,6 +49,15 @@ const paths = {
 		src: 'src/**/*.html',
 		watch: 'src/**/*.html',
 		dest: 'dest/'
+	},
+	img: {
+		resource: './src/resource/img',
+		resourceSvg: './src/resource/svg',
+		src: './src/img',
+	},
+	fonts: {
+		src: './src/fonts',
+		resource: './src/resource/fonts',
 	}
 }
 
@@ -63,7 +73,7 @@ const onError = function(err) {
 
 // clean
 function clean() {
-	return del(paths.clean);
+	return del(paths.dest);
 }
 
 // copy
@@ -75,9 +85,9 @@ function copy() {
 			"./src/favicons/*",
 			"./src/*.webmanifest"
 		], {
-			base: "./src"
+			base: paths.src
 		})
-		.pipe(dest("./dest"));
+		.pipe(dest(paths.dest));
 }
 
 // styles
@@ -160,7 +170,7 @@ function watchFiles() {
 function server() {
 	browserSync.init({
 		server: {
-			baseDir: './dest/'
+			baseDir: paths.dest
 		}
 	});
 
@@ -199,40 +209,40 @@ const ttf2woff = require('gulp-ttf2woff');
 
 // img
 function optiImg() {
-	src("./src/img/**/*.svg", {
-			base: 'src'
+	src(paths.img.src + "/**/*.svg", {
+			base: paths.src
 		})
 		.pipe(svgmin())
-		.pipe(dest("src/"));
-	return src("./src/img/**/*.{png,jpg}", {
-			base: 'src'
+		.pipe(dest(paths.src));
+	return src(paths.img.src + "/**/*.{png,jpg}", {
+			base: paths.src
 		})
 		.pipe(squoosh())
-		.pipe(dest("src/"));
+		.pipe(dest(paths.src));
 }
 
 function createWebp() {
-	return src("./src/resource/img/**/*.{jpg,png}")
+	return src(paths.img.resource + "/**/*.{jpg,png}")
 		.pipe(
 			squoosh({
 				webp: {}
 			})
 		)
-		.pipe(dest("./src/img"));
+		.pipe(dest(paths.img.src));
 }
 
 function createAvif() {
-	return src("./src/resource/img/**/*.{jpg,png}")
+	return src(paths.img.resource + "/**/*.{jpg,png}")
 		.pipe(
 			squoosh({
 				avif: {}
 			})
 		)
-		.pipe(dest("./src/img"));
+		.pipe(dest(paths.img.src));
 }
 
 function sprite() {
-	return src("./src/resource/svg/*.svg")
+	return src(paths.img.resourceSvg + "/*.svg")
 		.pipe(svgSprite({
 			mode: {
 				stack: {
@@ -240,17 +250,17 @@ function sprite() {
 				}
 			},
 		}))
-		.pipe(dest("./src/img"));
+		.pipe(dest(paths.img.src));
 }
 
 // fonts
 function fonts() {
-	src(['src/resource/fonts/*.ttf'])
+	src([paths.fonts.resource + '/*.ttf'])
 		.pipe(ttf2woff())
-		.pipe(dest('src/fonts/'));
-	return src(['src/resource/fonts/*.ttf'])
+		.pipe(dest(paths.fonts.src));
+	return src([paths.fonts.resource + '/*.ttf'])
 		.pipe(ttf2woff2())
-		.pipe(dest('src/fonts/'));
+		.pipe(dest(paths.fonts.src));
 }
 
 // createWebp
