@@ -24,6 +24,11 @@ const cleanCSS = require('gulp-clean-css');
 const autoprefixer = require('gulp-autoprefixer');
 const gcmq = require('gulp-group-css-media-queries');
 
+const postcss = require('gulp-postcss');
+const postLess = require('postcss-less');
+const postImport = require('postcss-import');
+const postUrl = require('postcss-url');
+
 // scripts
 const babel = require('gulp-babel');
 const minify = require('gulp-minify');
@@ -103,6 +108,12 @@ function styles() {
 			})
 		}))
 		.pipe(sourcemaps.init())
+		.pipe(postcss([
+			postImport(),
+			postUrl()
+		], {
+			syntax: postLess
+		}))
 		.pipe(plumber({
 			errorHandler: onError
 		}))
