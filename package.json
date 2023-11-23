@@ -1,6 +1,6 @@
 {
 	"name": "bolt",
-	"version": "4.0.3",
+	"version": "4.0.4",
 	"description": "html less babel",
 	"main": "index.js",
 	"scripts": {
@@ -26,7 +26,6 @@
 		"gulp-babel": "^8.0.0",
 		"gulp-group-css-media-queries": "^1.2.2",
 		"gulp-htmlmin": "^5.0.1",
-		"gulp-less": "^5.0.0",
 		"gulp-libsquoosh": "^1.0.12",
 		"gulp-minify": "^3.1.0",
 		"gulp-notify": "^4.0.0",
