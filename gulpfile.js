@@ -18,7 +18,6 @@ const notify = require('gulp-notify');
 
 // styles
 const sass = require('gulp-sass')(require('sass'));
-// const cleanCSS = require('gulp-clean-css');
 const autoprefixer = require('autoprefixer');
 const gcmq = require('gulp-group-css-media-queries');
 
