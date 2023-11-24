@@ -211,47 +211,45 @@ exports.default = series(clean, copy, parallel(scripts, styles, html), server);
  * Дополнительные задачи
  */
 // img
+const sharpResponsive = require('gulp-sharp-responsive');
 const squoosh = require('gulp-libsquoosh');
-const gulpSquoosh = require("gulp-squoosh");
 const svgSprite = require('gulp-svg-sprite');
 const svgmin = require('gulp-svgmin');
 // fonts
 const ttf2woff2 = require('gulp-ttf2woff2');
 const ttf2woff = require('gulp-ttf2woff');
 
-// img
+
 function optiImg() {
 	src(paths.img.src + "/**/*.svg", {
 			base: paths.src
 		})
 		.pipe(svgmin())
 		.pipe(dest(paths.src));
-	return src(paths.img.src + "/**/*.{png,jpg}", {
-			base: paths.src
-		})
-		.pipe(squoosh())
-		.pipe(dest(paths.src));
-}
-
-function createWebp() {
-	return src(paths.img.resource + "/**/*.{jpg,png}")
-		.pipe(
-			squoosh({
-				webp: {}
-			})
-		)
-		.pipe(dest(paths.img.src));
-}
-
-function createAvif() {
-	return src(paths.img.resource + "/**/*.{jpg,png}")
-		.pipe(
-			gulpSquoosh({
-				encodeOptions: {
-					avif: {}
+	src([paths.img.resource + "/**/*.{jpg,png}"])
+		.pipe(sharpResponsive({
+			includeOriginalFile: true,
+			formats: [{
+				width: (metadata) => metadata.width * 2,
+				rename: {
+					suffix: "-2x"
+				},
+				jpegOptions: {
+					progressive: true
+				},
+			}, {
+				width: (metadata) => metadata.width * 2,
+				format: "webp",
+				rename: {
+					suffix: "-2x"
 				}
-			})
-		)
+			}, {
+				format: "webp"
+			}, ]
+		}))
+		.pipe(dest(paths.img.src));
+	return src([paths.img.src + "/**/*.{jpg,png}"])
+		.pipe(squoosh())
 		.pipe(dest(paths.img.src));
 }
 
@@ -277,11 +275,7 @@ function fonts() {
 		.pipe(dest(paths.fonts.src));
 }
 
-// createWebp
-exports.createWebp = createWebp;
-// createAvif
-exports.createAvif = createAvif;
-// optiImg
+// img
 exports.optiImg = optiImg;
 // sprite
 exports.sprite = sprite;
