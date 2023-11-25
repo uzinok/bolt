@@ -198,7 +198,7 @@ export function createRastr() {
 }
 
 export function optiImg() {
-	return src(paths.img.src + "/**/*.{png,jpg,svg}", {
+	return src(paths.img.src + "/**/*.{png,jpg,svg}", !paths.img.src + "sprite.svg", {
 			base: paths.src
 		})
 		.pipe(imagemin([
