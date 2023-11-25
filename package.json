@@ -17,7 +17,7 @@
 	],
 	"scripts": {
 		"start": "gulp runDev",
-		"lint:html": "linthtml build/**/*.html --config .linthtmlrc"
+		"lint:html": "linthtml dest/**/*.html --config .linthtmlrc"
 	},
 	"license": "ISC",
 	"devDependencies": {
