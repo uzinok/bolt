@@ -198,7 +198,7 @@ export function createRastr() {
 }
 
 export function optiImg() {
-	return src(paths.img.src + "/**/*.{png,jpg,svg}", !paths.img.src + "sprite.svg", {
+	return src([`${paths.img.src} + "/**/*.{png,jpg,svg}`, `!${paths.img.src} sprite.svg`], {
 			base: paths.src
 		})
 		.pipe(imagemin([
@@ -233,7 +233,7 @@ export function optiImg() {
 				}]
 			})
 		]))
-		.pipe(dest(paths.src));
+		.pipe(dest(paths.img.src));
 }
 
 import ttf2woff2 from 'gulp-ttf2woff2';
