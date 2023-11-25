@@ -1,16 +1,11 @@
 body {
 	margin: 0;
-	padding: 0;
-
-	background-image: url(../../img/Rectangle\ 1-2x.jpg);
 }
 
 img {
 	max-width: 100%;
-
-	@media (min-width: 990px) {
-		background-color: aliceblue;
-	}
+	height: auto;
+	object-fit: contain;
 }
 
 .visually-hidden {
