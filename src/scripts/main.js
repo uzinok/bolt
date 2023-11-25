@@ -1,4 +1,4 @@
-console.log('hi!xx');
+console.log('hi!222xx');
 const hello = 'hello';
 let bue = 'bue';
 document.write(hello);

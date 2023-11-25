@@ -1,39 +1,41 @@
+import {
+	readFileSync,
+	rmSync
+} from 'node:fs';
+
+import gulp from 'gulp';
+import plumber from 'gulp-plumber';
+
+import rename from 'gulp-rename';
+
+import * as dartSass from 'sass';
+import gulpSass from 'gulp-sass';
+import postcss from 'gulp-postcss';
+import postUrl from 'postcss-url';
+import autoprefixer from 'autoprefixer';
+import csso from 'postcss-csso';
+import gcmq from 'gulp-group-css-media-queries';
+
+import {
+	nunjucksCompile
+} from 'gulp-nunjucks';
+import htmlmin from 'gulp-htmlmin';
+
+import babel from 'gulp-babel';
+import minify from 'gulp-minify';
+
+import serverSynk from 'browser-sync';
+const browserSync = serverSynk.create();
+
 const {
 	src,
 	dest,
 	watch,
 	series,
 	parallel
-} = require('gulp');
-
-// clean
-const del = require('del');
-// rename
-const rename = require('gulp-rename');
-// browserSync
-const browserSync = require('browser-sync').create();
-// error
-const plumber = require('gulp-plumber');
-const notify = require('gulp-notify');
-
-// styles
-const sass = require('gulp-sass')(require('sass'));
-const autoprefixer = require('autoprefixer');
-const gcmq = require('gulp-group-css-media-queries');
-
-const postcss = require('gulp-postcss');
-const postScss = require('postcss-scss');
-const postImport = require('postcss-import');
-const postUrl = require('postcss-url');
-const csso = require('postcss-csso')
-
-// scripts
-const babel = require('gulp-babel');
-const minify = require('gulp-minify');
-
-// html
-const htmlmin = require('gulp-htmlmin');
-const nunjucks = require('gulp-nunjucks');
+} = gulp;
+const sass = gulpSass(dartSass);
+let isDevelopment = true;
 
 const paths = {
 	dest: 'dest',
@@ -64,86 +66,64 @@ const paths = {
 	}
 }
 
-const onError = function(err) {
-	notify.onError({
-		title: "Gulp",
-		subtitle: "Failure!",
-		message: "Error: <%= error.message %>",
-		sound: "Beep"
-	})(err);
-	this.emit('end');
+export function clean(done) {
+	rmSync(paths.dest, {
+		force: true,
+		recursive: true,
+	});
+	done();
 }
 
-// clean
-function clean() {
-	return del(paths.dest);
-}
-
-// copy
-function copy() {
+export function copy() {
 	return src([
 			"./src/fonts/*.{woff2,woff}",
 			"./src/*.ico",
 			"./src/img/**/*.{svg,jpg,jpeg,png,webp,avif}",
-			"./src/favicons/*",
-			"./src/*.webmanifest"
+			"./src/video/**/*.{mp4,webm}",
+			"./src/static/**/*.{css,js}",
 		], {
 			base: paths.src
 		})
 		.pipe(dest(paths.dest));
 }
 
-// styles
-function styles() {
+export function styles() {
 	return src(paths.styles.src, {
-			sourcemaps: true
+			sourcemaps: isDevelopment
 		})
-		.pipe(plumber({
-			errorHandler: notify.onError(function(err) {
-				return {
-					title: 'Task styles',
-					message: "Error: <%= error.message %>",
-					sound: true
-				}
-			})
-		}))
-		.pipe(postcss([
-			postImport(),
-			postUrl()
-		], {
-			syntax: postScss
-		}))
-		.pipe(plumber({
-			errorHandler: onError
-		}))
+		.pipe(plumber())
 		.pipe(sass().on('error', sass.logError))
 		.pipe(gcmq())
 		.pipe(postcss([
+			postUrl({
+				assetsPath: '../'
+			}),
 			autoprefixer(),
 			csso()
 		]))
 		.pipe(rename({
-			basename: 'main',
 			suffix: '.min'
 		}))
 		.pipe(dest(paths.styles.dest, {
-			sourcemaps: "."
+			sourcemaps: '.'
 		}))
 		.pipe(browserSync.stream());
 }
 
-// scripts
-function scripts() {
-	return src(paths.scripts.src)
-		.pipe(plumber({
-			errorHandler: notify.onError(function(err) {
-				return {
-					title: 'Task scripts',
-					message: "Error: <%= error.message %>",
-					sound: true
-				}
-			})
+export function html() {
+	return src(paths.html.src)
+		.pipe(nunjucksCompile())
+		.pipe(htmlmin({
+			removeComments: false,
+			collapseWhitespace: true
 		}))
+		.pipe(dest(paths.html.dest))
+		.pipe(browserSync.stream());
+}
+
+export function scripts() {
+	return src(paths.scripts.src)
+		.pipe(plumber())
 		.pipe(babel({
 			presets: ['@babel/preset-env']
 		}))
@@ -158,26 +138,12 @@ function scripts() {
 		.pipe(browserSync.stream());
 }
 
-// html
-function html() {
-	return src(paths.html.src)
-		.pipe(nunjucks.compile())
-		.pipe(htmlmin({
-			removeComments: false,
-			collapseWhitespace: true
-		}))
-		.pipe(dest(paths.html.dest))
-		.pipe(browserSync.stream());
-}
-
-// watch
-function watchFiles() {
+export function watchFiles() {
 	watch(paths.styles.watch, styles)
 	watch(paths.scripts.watch, scripts)
 	watch(paths.html.watch, html)
 }
 
-// server
 function server() {
 	browserSync.init({
 		server: {
@@ -188,45 +154,26 @@ function server() {
 	watchFiles();
 }
 
-// clean
-exports.clean = clean;
-// copy
-exports.copy = copy;
-// styles
-exports.styles = styles;
-// watchFiles
-exports.watchFiles = watchFiles;
-// scripts
-exports.scripts = scripts;
-// html
-exports.html = html;
-// server
-exports.server = server;
+export function start(done) {
+	return series(clean, copy, parallel(scripts, styles, html), server)(done);
+}
 
-exports.build = series(clean, copy, parallel(styles, scripts, html))
+export function build(done) {
+	return series(clean, copy, parallel(scripts, styles, html))(done);
+}
 
-exports.default = series(clean, copy, parallel(scripts, styles, html), server);
+// дополнительные задачи
 
-/**
- * Дополнительные задачи
- */
-// img
-const sharpResponsive = require('gulp-sharp-responsive');
-const squoosh = require('gulp-libsquoosh');
-const svgSprite = require('gulp-svg-sprite');
-const svgmin = require('gulp-svgmin');
-// fonts
-const ttf2woff2 = require('gulp-ttf2woff2');
-const ttf2woff = require('gulp-ttf2woff');
+import sharpResponsive from 'gulp-sharp-responsive';
+import imagemin, {
+	gifsicle,
+	mozjpeg,
+	optipng,
+	svgo
+} from 'gulp-imagemin';
 
-
-function optiImg() {
-	src(paths.img.src + "/**/*.svg", {
-			base: paths.src
-		})
-		.pipe(svgmin())
-		.pipe(dest(paths.src));
-	src([paths.img.resource + "/**/*.{jpg,png}"])
+export function createRastr() {
+	return src([paths.img.resource + "/**/*.{jpg,png}"])
 		.pipe(sharpResponsive({
 			includeOriginalFile: true,
 			formats: [{
@@ -248,12 +195,50 @@ function optiImg() {
 			}, ]
 		}))
 		.pipe(dest(paths.img.src));
-	return src([paths.img.src + "/**/*.{jpg,png}"])
-		.pipe(squoosh())
-		.pipe(dest(paths.img.src));
 }
 
-function sprite() {
+export function optiImg() {
+	return src(paths.img.src + "/**/*.{png,jpg,svg}", {
+			base: paths.src
+		})
+		.pipe(imagemin([
+			gifsicle({
+				interlaced: true
+			}),
+			mozjpeg({
+				quality: 75,
+				progressive: true
+			}),
+			optipng({
+				optimizationLevel: 5
+			}),
+			svgo({
+				plugins: [
+					{
+						name: 'cleanupIDs',
+						active: false
+					}
+				]
+			})
+		]))
+		.pipe(dest(paths.src));
+}
+
+import ttf2woff2 from 'gulp-ttf2woff2';
+import ttf2woff from 'gulp-ttf2woff';
+
+export function fonts() {
+	src([paths.fonts.resource + '/*.ttf'])
+		.pipe(ttf2woff())
+		.pipe(dest(paths.fonts.src));
+	return src([paths.fonts.resource + '/*.ttf'])
+		.pipe(ttf2woff2())
+		.pipe(dest(paths.fonts.src));
+}
+
+import svgSprite from 'gulp-svg-sprite';
+
+export function sprite() {
 	return src(paths.img.resourceSvg + "/*.svg")
 		.pipe(svgSprite({
 			mode: {
@@ -264,20 +249,3 @@ function sprite() {
 		}))
 		.pipe(dest(paths.img.src));
 }
-
-// fonts
-function fonts() {
-	src([paths.fonts.resource + '/*.ttf'])
-		.pipe(ttf2woff())
-		.pipe(dest(paths.fonts.src));
-	return src([paths.fonts.resource + '/*.ttf'])
-		.pipe(ttf2woff2())
-		.pipe(dest(paths.fonts.src));
-}
-
-// img
-exports.optiImg = optiImg;
-// sprite
-exports.sprite = sprite;
-// fonts
-exports.fonts = fonts;
