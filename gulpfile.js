@@ -213,12 +213,10 @@ export function optiImg() {
 				optimizationLevel: 5
 			}),
 			svgo({
-				plugins: [
-					{
-						name: 'cleanupIDs',
-						active: false
-					}
-				]
+				plugins: [{
+					name: 'cleanupIDs',
+					active: false
+				}]
 			})
 		]))
 		.pipe(dest(paths.src));
@@ -238,14 +236,17 @@ export function fonts() {
 
 import svgSprite from 'gulp-svg-sprite';
 
+const config = {
+	mode: {
+		symbol: {
+			dest: '.',
+			sprite: 'sprite.svg'
+		}
+	}
+};
+
 export function sprite() {
 	return src(paths.img.resourceSvg + "/*.svg")
-		.pipe(svgSprite({
-			mode: {
-				stack: {
-					sprite: "../sprite.svg"
-				}
-			},
-		}))
+		.pipe(svgSprite(config))
 		.pipe(dest(paths.img.src));
 }
