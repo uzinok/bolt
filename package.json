@@ -1,7 +1,7 @@
 {
 	"name": "bolt",
 	"author": "Зиновьев Александр",
-	"version": "5.0.5",
+	"version": "5.0.6",
 	"description": "html scss babel",
 	"private": true,
 	"type": "module",
