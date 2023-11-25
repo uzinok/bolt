@@ -16,7 +16,7 @@
 		"not < 0.2%"
 	],
 	"scripts": {
-		"start": "gulp runDev",
+		"start": "gulp start",
 		"lint:html": "linthtml dest/**/*.html --config .linthtmlrc"
 	},
 	"license": "ISC",
