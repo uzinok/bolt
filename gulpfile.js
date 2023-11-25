@@ -216,6 +216,20 @@ export function optiImg() {
 				plugins: [{
 					name: 'cleanupIDs',
 					active: false
+				}, {
+					name: 'preset-default',
+					params: {
+						overrides: {
+							// customize options for plugins included in preset
+							convertPathData: {
+								floatPrecision: 2,
+								forceAbsolutePath: false,
+								utilizeAbsolute: false,
+							},
+							// or disable plugins
+							removeViewBox: false,
+						},
+					},
 				}]
 			})
 		]))
