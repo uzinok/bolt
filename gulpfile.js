@@ -194,7 +194,7 @@ export function createRastr() {
 				format: "webp"
 			}, ]
 		}))
-		.pipe(dest(paths.img.src));
+		.pipe(dest(paths.img.src + "/img/"));
 }
 
 export function optiImg() {
@@ -282,5 +282,5 @@ export function sprite() {
 			}]
 		})]))
 		.pipe(svgSprite(config))
-		.pipe(dest(paths.img.src));
+		.pipe(dest(paths.img.src + "/img/"));
 }
